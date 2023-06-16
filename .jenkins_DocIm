@@ -1,0 +1,26 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build docker image') {
+            steps {
+                script {
+                    sh 'docker build -t registry.gitlab.com/mr.aj/dev-demo2:ajay1 .'
+                }
+            }
+        }
+        
+        stage('Login to GitLab Container Registry') {
+            steps {
+                script {
+                    sh 'docker login -u Mr.Aj -p Bujji@123 registry.gitlab.com'
+                }
+            }
+        }
+        
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    sh 'docker push registry.gitlab.com/mr.aj/dev-demo2:ajay1'
+                }
+            }
+        }
