@@ -1,8 +1,39 @@
-pipeline{
-agent any
-stages{
-stage('Build'){
-echo "Hello world"
+pipeline {
+agent { 
+    docker {
+        image 'registry.az1:5043/maven-proto'
+        registryUrl 'https://registry.az1'
+        args '-v /var/jenkins_home/.m2:/root/.m2'
+    }
 }
+options {
+    timeout(time: 1, unit: 'HOURS')
+    buildDiscarder(logRotator(numToKeepStr:'10'))
 }
+
+stages {
+    stage ('Build') {
+        steps{
+            sh ...
+        }
+    }
+
+    stage ('Test') {
+        steps {
+            sh ...
+        }
+    } 
+
+     stage ('Deploy') {
+        steps {
+            sh ...
+        }
+    }
+}
+
+post {
+    always {
+        echo 'Clean up workspace'
+        deleteDir()
+    }
 }
